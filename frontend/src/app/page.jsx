@@ -72,8 +72,8 @@ function AnimatedBackdrop() {
       const cx = lerp(w * 0.2, w * 0.8, mx * 0.3)
       const cy = lerp(h * 0.3, h * 0.7, my * 0.3)
       const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(w,h)*0.9)
-      g.addColorStop(0, 'rgba(236,72,153,0.08)')
-      g.addColorStop(1, 'rgba(7,8,20,0)')
+      g.addColorStop(0, 'rgba(59,130,246,0.10)')
+      g.addColorStop(1, 'rgba(0,0,0,0)')
       ctx.fillStyle = g
       ctx.fillRect(0,0,w,h)
 
@@ -92,8 +92,8 @@ function AnimatedBackdrop() {
           if (d2 < max2) {
             const t = 1 - d2 / max2
             const grad = ctx.createLinearGradient(a.x, a.y, b.x, b.y)
-            grad.addColorStop(0, `rgba(34,211,238,${t*0.45})`)
-            grad.addColorStop(1, `rgba(236,72,153,${t*0.45})`)
+            grad.addColorStop(0, `rgba(59,130,246,${t*0.45})`)
+            grad.addColorStop(1, `rgba(0,0,0,${t*0.45})`)
             ctx.strokeStyle = grad
             ctx.lineWidth = 1
             ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke()
@@ -101,7 +101,7 @@ function AnimatedBackdrop() {
         }
       }
 
-      ctx.fillStyle = 'rgba(236,72,153,0.65)'
+      ctx.fillStyle = 'rgba(59,130,246,0.65)'
       for (const p of points) { ctx.beginPath(); ctx.arc(p.x, p.y, 1.2, 0, Math.PI*2); ctx.fill() }
 
       raf = requestAnimationFrame(step)
@@ -122,8 +122,8 @@ function BrandBadge() {
           height: 28,
           borderRadius: 8,
           background:
-            'conic-gradient(from 140deg at 50% 50%, #22d3ee, #a78bfa, #f472b6, #22d3ee)',
-          boxShadow: '0 0 18px rgba(34,211,238,0.6)'
+            'conic-gradient(from 140deg at 50% 50%, #3b82f6, #1e40af, #000000, #3b82f6)',
+          boxShadow: '0 0 18px rgba(59,130,246,0.6)'
         }}
       />
       <span style={{ fontWeight: 700, letterSpacing: 0.2, opacity: 0.9 }}>Vault</span>
@@ -169,7 +169,7 @@ export default function Home() {
       style={{
         minHeight: '100svh',
         background:
-          'radial-gradient(1200px 600px at 20% 10%, rgba(255,0,186,0.12), transparent 60%), radial-gradient(900px 500px at 80% 30%, rgba(0,255,235,0.12), transparent 60%), radial-gradient(1400px 800px at 50% 90%, rgba(124,58,237,0.10), transparent 60%), #070814',
+          'radial-gradient(1200px 600px at 20% 10%, rgba(59,130,246,0.12), transparent 60%), radial-gradient(900px 500px at 80% 30%, rgba(0,0,0,0.18), transparent 60%), radial-gradient(1400px 800px at 50% 90%, rgba(29,78,216,0.10), transparent 60%), #000000',
         color: 'white',
         position: 'relative',
         overflow: 'hidden',
@@ -211,7 +211,7 @@ export default function Home() {
             borderRadius: PANEL.borderRadius,
             background: 'rgba(255,255,255,0.025)',
             border: '1px solid rgba(255,255,255,0.10)',
-            boxShadow: '0 20px 60px rgba(0,0,0,0.45), 0 0 80px rgba(34,211,238,0.10), 0 0 110px rgba(236,72,153,0.10)',
+            boxShadow: '0 20px 60px rgba(0,0,0,0.45), 0 0 80px rgba(59,130,246,0.12), 0 0 110px rgba(0,0,0,0.20)',
             backdropFilter: 'blur(22px) saturate(140%)',
             WebkitBackdropFilter: 'blur(22px) saturate(140%)',
             overflow: 'hidden',
@@ -232,7 +232,7 @@ export default function Home() {
             fontWeight: 800,
             margin: '6px 0 16px 0',
             textShadow:
-              '0 0 18px rgba(34,211,238,0.35), 0 0 28px rgba(236,72,153,0.25)',
+              '0 0 18px rgba(59,130,246,0.35), 0 0 28px rgba(0,0,0,0.25)',
           }}
         >
               The Future of Decentralized Rewards.
@@ -272,7 +272,7 @@ export default function Home() {
             top: `${item.top}%`,
             left: `${item.left}%`,
             transform: `translate(-50%, -50%) rotate(${item.rotate}deg)`,
-            filter: 'drop-shadow(0 0 16px rgba(236,72,153,0.35)) drop-shadow(0 0 28px rgba(34,211,238,0.25))',
+            filter: 'drop-shadow(0 0 16px rgba(59,130,246,0.35)) drop-shadow(0 0 28px rgba(0,0,0,0.25))',
             opacity: item.opacity,
             pointerEvents: 'none',
           }}
@@ -304,9 +304,9 @@ export default function Home() {
         position: absolute;
         inset: 0;
         background:
-          radial-gradient(1200px 600px at 20% 10%, rgba(255,0,186,0.12), transparent 60%),
-          radial-gradient(900px 500px at 80% 30%, rgba(0,255,235,0.12), transparent 60%),
-          radial-gradient(1400px 800px at 50% 90%, rgba(124,58,237,0.10), transparent 60%);
+          radial-gradient(1200px 600px at 20% 10%, rgba(59,130,246,0.12), transparent 60%),
+          radial-gradient(900px 500px at 80% 30%, rgba(0,0,0,0.18), transparent 60%),
+          radial-gradient(1400px 800px at 50% 90%, rgba(29,78,216,0.10), transparent 60%);
         filter: saturate(120%);
         animation: drift 18s ease-in-out infinite;
         pointer-events: none;
@@ -345,7 +345,7 @@ export default function Home() {
         position: absolute;
         inset: -20% -10% auto -10%;
         height: 60%;
-        background: radial-gradient(600px 260px at 30% 40%, rgba(236,72,153,0.25), transparent 60%), radial-gradient(520px 240px at 70% 50%, rgba(34,211,238,0.22), transparent 60%);
+        background: radial-gradient(600px 260px at 30% 40%, rgba(59,130,246,0.25), transparent 60%), radial-gradient(520px 240px at 70% 50%, rgba(0,0,0,0.22), transparent 60%);
         filter: blur(40px) saturate(120%);
         animation: floatGlow 6s ease-in-out infinite;
         pointer-events: none;
