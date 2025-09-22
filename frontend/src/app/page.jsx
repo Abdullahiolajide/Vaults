@@ -3,12 +3,19 @@ import Image from 'next/image'
 import { useMemo, useEffect, useRef } from 'react'
 
 // Palette and layout knobs kept in one place
+// const COLORS = {
+//   cyan: 'rgba(34,211,238,1)',
+//   cyanSoft: 'rgba(34,211,238,0.35)',
+//   pink: 'rgba(236,72,153,1)',
+//   pinkSoft: 'rgba(236,72,153,0.35)',
+//   textSoft: 'rgba(230,230,233,0.85)'
+// }
 const COLORS = {
-  cyan: 'rgba(34,211,238,1)',
+  cyan: 'rgba(0, 18, 117, 1)',
   cyanSoft: 'rgba(34,211,238,0.35)',
-  pink: 'rgba(236,72,153,1)',
-  pinkSoft: 'rgba(236,72,153,0.35)',
-  textSoft: 'rgba(230,230,233,0.85)'
+  pink: 'rgba(26, 17, 21, 1)',
+  pinkSoft: 'rgba(122, 18, 70, 0.35)',
+  textSoft: 'rgba(82, 82, 255, 0.85)'
 }
 
 const PANEL = {
@@ -180,18 +187,20 @@ export default function Home() {
         }}
       />
 
+      <div className='mx-10 my-5'>
+        <BrandBadge />
+      </div>
       <section
         style={{
           maxWidth: 1120,
           margin: '0 auto',
-          padding: '96px 24px',
+          padding: '20px 24px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           textAlign: 'center',
         }}
       >
-        <BrandBadge />
 
         <div
           style={{
@@ -226,7 +235,7 @@ export default function Home() {
               '0 0 18px rgba(34,211,238,0.35), 0 0 28px rgba(236,72,153,0.25)',
           }}
         >
-              Vault: The Future of Decentralized Rewards.
+              The Future of Decentralized Rewards.
               <br />
               On‑Chain. Seamlessly.
             </h1>
