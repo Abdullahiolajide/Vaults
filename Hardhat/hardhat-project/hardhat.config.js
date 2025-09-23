@@ -7,7 +7,7 @@ module.exports = {
     blockdag:{
       url: "https://rpc.primordial.bdagscan.com/",
       chainId: 1043,
-      gasPrice: 200000,
+      gasPrice: 200000000,
       accounts: [process.env.BLOCKDAG_TESTNET_PRIVATE_KEY]
     }
   },
