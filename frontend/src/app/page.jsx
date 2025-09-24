@@ -177,6 +177,11 @@ export default function Home() {
     >
       <AnimatedBackdrop />
       <div
+        className="bg-animated"
+        aria-hidden="true"
+        style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}
+      />
+      <div
         style={{
           position: 'absolute',
           inset: 0,
@@ -215,7 +220,8 @@ export default function Home() {
             backdropFilter: 'blur(22px) saturate(140%)',
             WebkitBackdropFilter: 'blur(22px) saturate(140%)',
             overflow: 'hidden',
-            position: 'relative'
+            position: 'relative',
+            animation: 'floatGlow 6s ease-in-out infinite'
           }}
         >
           <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 10, padding: '14px 16px', opacity: 0.9 }}>
@@ -252,7 +258,7 @@ export default function Home() {
             </p>
 
             <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center' }}>
-              <CTAButton tone="pink" href="#app">Launch App</CTAButton>
+              <CTAButton tone="pink" href="/app">Launch App</CTAButton>
               <CTAButton tone="cyan" href="#docs">Explore Docs</CTAButton>
             </div>
           </div>
