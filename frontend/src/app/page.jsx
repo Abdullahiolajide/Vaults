@@ -113,7 +113,7 @@ function AnimatedBackdrop() {
   return <canvas ref={ref} aria-hidden="true" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.85 }} />
 }
 
-function BrandBadge() {
+export function BrandBadge() {
   return (
     <div className="fade-up" style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
       <div
