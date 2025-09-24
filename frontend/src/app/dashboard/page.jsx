@@ -1,3 +1,4 @@
+'use client'
 import { AppSidebar } from "@/components/app-sidebar"
 import { ChartAreaInteractive } from "@/components/chart-area-interactive"
 import { DataTable } from "@/components/data-table"
@@ -9,8 +10,13 @@ import {
 } from "@/components/ui/sidebar"
 
 import data from "./data.json"
+import { createContext, useState } from "react"
+const DashboardContext = createContext()
 
-export default function Page() {
+export default function Page({walletAddress}) {
+  // console.log(walletAddress)
+  const [refresh, setRefresh] = useState(false)
+
   return (
     <SidebarProvider
       style={
@@ -19,6 +25,8 @@ export default function Page() {
           "--header-height": "calc(var(--spacing) * 12)"
         }
       }>
+        <DashboardContext.Provider value={{walletAddress, refresh, setRefresh}}>
+
       <AppSidebar variant="inset" />
       <SidebarInset>
         <SiteHeader />
@@ -34,6 +42,9 @@ export default function Page() {
           </div>
         </div>
       </SidebarInset>
+        </DashboardContext.Provider>
     </SidebarProvider>
   );
 }
+
+export {DashboardContext}

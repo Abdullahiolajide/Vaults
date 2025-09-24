@@ -1,10 +1,10 @@
 require("@nomicfoundation/hardhat-toolbox");
-require("dotenv").config()
+require("dotenv").config();
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
-  networks:{
-    blockdag:{
+  networks: {
+    blockdag: {
       url: "https://rpc.primordial.bdagscan.com/",
       chainId: 1043,
       gasPrice: 200000000,

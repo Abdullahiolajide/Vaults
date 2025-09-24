@@ -28,11 +28,14 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { useContext } from "react"
+import { DashboardContext } from "@/app/dashboard/page"
 
 export function NavUser({
   user
 }) {
   const { isMobile } = useSidebar()
+  const {walletAddress} = useContext(DashboardContext)
 
   return (
     <SidebarMenu>
@@ -47,9 +50,9 @@ export function NavUser({
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
+                <span className="truncate font-medium">Anonymous</span>
                 <span className="text-muted-foreground truncate text-xs">
-                  {user.email}
+                  {walletAddress}
                 </span>
               </div>
               <IconDotsVertical className="ml-auto size-4" />

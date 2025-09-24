@@ -1,5 +1,6 @@
 "use client"
 import Image from 'next/image'
+import Link from 'next/link'
 import { useMemo, useEffect, useRef } from 'react'
 
 // Palette and layout knobs kept in one place
@@ -137,9 +138,12 @@ function CTAButton({ children, tone, href }) {
     : { background: 'rgba(34,211,238,0.10)', border: '1px solid rgba(34,211,238,0.45)', boxShadow: '0 0 24px rgba(34,211,238,0.35) inset, 0 0 24px rgba(34,211,238,0.15)' }
 
   return (
-    <a href={href} className="btn fade-up pulse" style={{ ...styles, textDecoration: 'none', backdropFilter: 'blur(6px)', borderRadius: 12, padding: '12px 18px', display: 'inline-block', fontWeight: 600 }}>
+    <Link href={href}>
+      <span className="btn fade-up pulse" style={{ ...styles, textDecoration: 'none', backdropFilter: 'blur(6px)', borderRadius: 12, padding: '12px 18px', display: 'inline-block', fontWeight: 600 }}>
       {children}
-    </a>
+      </span>
+    </Link>
+
   )
 }
 
@@ -258,7 +262,7 @@ export default function Home() {
             </p>
 
             <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center' }}>
-              <CTAButton tone="pink" href="/app">Launch App</CTAButton>
+              <CTAButton tone="pink" href="/connect">Launch App</CTAButton>
               <CTAButton tone="cyan" href="#docs">Explore Docs</CTAButton>
             </div>
           </div>

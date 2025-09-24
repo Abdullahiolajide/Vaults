@@ -33,6 +33,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { BrandBadge } from "@/app/page"
+import { DashboardContext } from "@/app/dashboard/page"
 
 const data = {
   user: {
@@ -154,6 +155,8 @@ const data = {
 export function AppSidebar({
   ...props
 }) {
+  // const {walletAddress} = React.useContext(DashboardContext)
+  // console.log(walletaddres)
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
