@@ -29,12 +29,15 @@ export function NavMain({ items }) {
   const [category, setCategory] = useState(""); // NEW
   const [liquidity, setLiquidity] = useState(""); // NEW (in ETH/BDAG)
   const [loading, setLoading] = useState(false);
+  const [ltext, setLText] = useState('')
 
   // Create vault handler
   async function handleCreateVault(e) {
     e.preventDefault();
     try {
       setLoading(true);
+      setLText('Creating...')
+
 
       if (!window.ethereum) {
         throw new Error("No wallet/provider found.");
@@ -211,6 +214,22 @@ export function NavMain({ items }) {
             </div>
           </div>
         )}
+
+        {/* loading Modal  */}
+
+        {loading && 
+        <div className="top-0 left-0 w-full z-100 bg-gray-900/50 fixed min-h-screen flex items-center justify-center flex flex-col space-y-4">
+          <div className="w-fit flex flex-col items-center rotate">
+            <div className="flex space-x-1">
+              <div className="h-5 w-5 bg-blue-800 rounded-4xl"></div>
+              <div className="h-5 w-5 bg-blue-800 rounded-4xl"></div>
+            </div>
+            <div className="h-5 w-5 bg-blue-800 rounded-4xl"></div>
+          </div>
+          <div>{ltext}</div>
+
+        </div>
+         }
       </SidebarGroupContent>
     </SidebarGroup>
   );

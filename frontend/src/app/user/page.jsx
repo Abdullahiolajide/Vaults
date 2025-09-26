@@ -593,8 +593,9 @@ async function getVault(address) {
 function QuestCard({ quest, wallet }) {
   const [open, setOpen] = useState(false);
   const [betAmount, setBetAmount] = useState("0.01");
-
+  
   async function placeBet(outcome) {
+    
     try {
       const vault = await getVault(quest.address);
       const tx = await vault.placeBet(outcome, {
@@ -607,7 +608,7 @@ function QuestCard({ quest, wallet }) {
       alert("Error placing bet");
     }
   }
-
+  
   async function claimReward() {
     try {
       const vault = await getVault(quest.address);
@@ -619,7 +620,7 @@ function QuestCard({ quest, wallet }) {
       alert("Error claiming reward");
     }
   }
-
+  
   async function resolveVault(outcome) {
     try {
       const vault = await getVault(quest.address);
@@ -678,27 +679,27 @@ function QuestCard({ quest, wallet }) {
                 onChange={(e) => setBetAmount(e.target.value)}
                 className="w-full rounded-md border border-white/10 p-2 bg-transparent text-white"
                 placeholder="Enter bet amount (BDAG)"
-              />
+                />
 
               {!quest.isResolved ? (
-                <div className="flex gap-2">
-                  <Button onClick={() => placeBet(quest.teamA)} className={'text-white cursor-pointer'}>Bet {quest.teamA}</Button>
-                  <Button onClick={() => placeBet(quest.teamB)} className={'text-white cursor-pointer'}>Bet {quest.teamB}</Button>
+                <div className="flex gap-2 flex items-center justify-center">
+                  <Button onClick={() => placeBet(quest.teamA)} className={'text-white cursor-pointer'}>Stake on  A</Button>
+                  <Button onClick={() => placeBet(quest.teamB)} className={'text-white cursor-pointer'}>Stake on B</Button>
                 </div>
               ) : (
                 <Button onClick={claimReward} className={'text-white'}>Claim Reward</Button>
               )}
 
-              {wallet.toLowerCase() === quest.creator.toLowerCase() && !quest.isResolved && (
+              {/* {wallet.toLowerCase() === quest.creator.toLowerCase() && !quest.isResolved && (
                 <div className="flex gap-2">
                   <Button variant="secondary" onClick={() => resolveVault(quest.teamA)} className={'text-white cursor-pointer'}>
-                    Resolve {quest.teamA}
+                  Resolve {quest.teamA}
                   </Button>
                   <Button variant="secondary" onClick={() => resolveVault(quest.teamB)} className={'text-white cursor-pointer'}>
-                    Resolve {quest.teamB}
+                  Resolve {quest.teamB}
                   </Button>
-                </div>
-              )}
+                  </div>
+                  )} */}
             </div>
 
             <DrawerFooter>
@@ -717,9 +718,12 @@ export default function Page() {
   const [wallet, setWallet] = useState("");
   const [balance, setBalance] = useState("0");
   const [quests, setQuests] = useState([]);
-
+  const [loading, setLoading] = useState(false)
+  const [lText, setLText] = useState('')
+  
   useEffect(() => {
     async function load() {
+      setLoading(true)
       try {
         const signer = await getSigner();
         const addr = await signer.getAddress();
@@ -762,12 +766,28 @@ export default function Page() {
       } catch (err) {
         console.error(err);
       }
+      finally{
+        setLoading(false)
+      }
     }
     load();
   }, []);
 
   return (
     <main className="relative min-h-screen text-white p-6 sm:p-10 overflow-hidden">
+      {loading && 
+        <div className="top-0 left-0 w-full z-100 bg-gray-900/50 fixed min-h-screen flex items-center justify-center flex flex-col space-y-4">
+          <div className="w-fit flex flex-col items-center rotate">
+            <div className="flex space-x-1">
+              <div className="h-5 w-5 bg-blue-800 rounded-4xl"></div>
+              <div className="h-5 w-5 bg-blue-800 rounded-4xl"></div>
+            </div>
+            <div className="h-5 w-5 bg-blue-800 rounded-4xl"></div>
+          </div>
+          <div>{lText}</div>
+
+        </div>
+          }
       <div className="pointer-events-none absolute inset-0 -z-10">
          <div className="absolute -top-24 -right-32 size-[600px] rounded-full blur-3xl opacity-40 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.45),transparent_60%)] animate-float-slow" />
         <div className="absolute top-1/3 -left-40 size-[520px] rounded-full blur-3xl opacity-30 bg-[radial-gradient(circle_at_center,rgba(147,51,234,0.45),transparent_60%)] animate-float-slower" />

@@ -125,3 +125,26 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.rotate{
+  animation: loader 0.7s infinite cubic-bezier(1, 1, 1, 1);
+}
+@keyframes loader {
+  from{
+    transform: rotate(0);
+  }
+  to{
+    transform: rotate(360deg);
+  }
+}
+.loading{
+  animation: loading 1s infinite ;
+}
+@keyframes loading {
+  from{
+    opacity: 0.9;
+  }
+  to{
+    opacity: 0.3;
+  }
+}

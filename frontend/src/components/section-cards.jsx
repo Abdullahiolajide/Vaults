@@ -450,6 +450,7 @@ import { predictionVaultAbi, predictionVaultsFactoryAbi } from "@/abi/abi";
 export function SectionCards() {
   const [vaults, setVaults] = useState([]);
   const [resolving, setResolving] = useState(null);
+  const [loading, setLoading] = useState(false)
 
 
 
@@ -460,6 +461,7 @@ export function SectionCards() {
   }, [refresh]);
 
   async function fetchVaults() {
+    setLoading(true)
     try {
       if (typeof window === "undefined" || !window.ethereum) {
         console.error("Ethereum provider not found");
@@ -503,6 +505,9 @@ export function SectionCards() {
     } catch (err) {
       console.error("Error fetching vaults:", err);
     }
+    finally{
+      setLoading(false)
+    }
   }
 
   async function resolveVault(address, outcome) {
@@ -529,6 +534,11 @@ export function SectionCards() {
 
   return (
     <div className="grid grid-cols-1 gap-4 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
+      {loading && <div className="flex space-x-3 w-140 loading">
+        <Card className='@container/card h-60 w-70'></Card>
+        <Card className='@container/card h-60 w-70'></Card>
+
+      </div>}
       {vaults.map((vault, i) => (
         <Card key={i} className="@container/card">
           <CardHeader>
