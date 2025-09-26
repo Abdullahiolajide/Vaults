@@ -12,183 +12,11 @@ import {
 import { DashboardContext } from "@/app/dashboard/page";
 import { useContext, useState } from "react";
 import { ethers } from "ethers";
+import { FACTORY_ADDRESS, predictionVaultsFactoryAbi } from "@/abi/abi";
 
-const factoryAbi = [
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "newVaultAddress",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "creator",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "string",
-          "name": "category",
-          "type": "string"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "initialLiquidity",
-          "type": "uint256"
-        }
-      ],
-      "name": "VaultCreated",
-      "type": "event"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "allVaults",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "_question",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_teamA",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_teamB",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_category",
-          "type": "string"
-        }
-      ],
-      "name": "createVault",
-      "outputs": [],
-      "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "getAllVaults",
-      "outputs": [
-        {
-          "internalType": "address[]",
-          "name": "",
-          "type": "address[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_vault",
-          "type": "address"
-        }
-      ],
-      "name": "getVaultCategory",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_creator",
-          "type": "address"
-        }
-      ],
-      "name": "getVaultsByCreator",
-      "outputs": [
-        {
-          "internalType": "address[]",
-          "name": "",
-          "type": "address[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "name": "vaultCategory",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        },
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "name": "vaultsByCreator",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    }
-  ];
 
-const FACTORY_ADDRESS = "0x199A7c6e6Fb176F2921cFfeE73eFA6Ec53185402";
+
+
 
 export function NavMain({ items }) {
   const { setRefresh } = useContext(DashboardContext);
@@ -216,7 +44,7 @@ export function NavMain({ items }) {
       await provider.send("eth_requestAccounts", []);
       const signer = await provider.getSigner();
 
-      const factory = new ethers.Contract(FACTORY_ADDRESS, factoryAbi, signer);
+      const factory = new ethers.Contract(FACTORY_ADDRESS, predictionVaultsFactoryAbi, signer);
 
       // Convert liquidity to wei
       const value = liquidity ? ethers.parseEther(liquidity.toString()) : 0n;

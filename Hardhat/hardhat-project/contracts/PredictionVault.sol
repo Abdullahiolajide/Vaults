@@ -8,13 +8,11 @@ contract PredictionVault {
     address public creator;
     string public teamA;
     string public teamB;
-    string public category; // NEW: category
+    string public category;
 
-    // Mapping to track the amount staked by each address on each outcome
     mapping(address => uint) public stakesA;
     mapping(address => uint) public stakesB;
 
-    // The total amount staked on each outcome
     uint public poolA;
     uint public poolB;
     uint public totalPool;
@@ -28,30 +26,30 @@ contract PredictionVault {
     event BetPlaced(address indexed staker, string outcome, uint amount);
     event VaultResolved(string winningOutcome);
     event Payout(address indexed winner, uint amount);
-    event VaultFunded(address indexed funder, uint amount); // NEW
+    event VaultFunded(address indexed funder, uint amount);
 
     // --- Constructor ---
     constructor(
         string memory _question,
         string memory _teamA,
         string memory _teamB,
-        string memory _category // NEW
+        string memory _category,
+        address _creator   // ✅ added
     ) {
         question = _question;
-        creator = msg.sender;
+        creator = _creator; // ✅ wallet that called factory
         teamA = _teamA;
         teamB = _teamB;
-        category = _category; // store category
+        category = _category;
         isResolved = false;
     }
 
     // --- Funding ---
-    /// @notice Allows vault to receive initial BDAG funding from factory or creator.
     receive() external payable {
         require(!isResolved, "Vault already resolved.");
         require(msg.value > 0, "Must send BDAG");
 
-        totalPool += msg.value; // counts as unallocated liquidity
+        totalPool += msg.value;
         emit VaultFunded(msg.sender, msg.value);
     }
 
@@ -77,7 +75,7 @@ contract PredictionVault {
         require(msg.sender == creator, "Only the creator can resolve the vault.");
         require(!isResolved, "Vault has already been resolved.");
         
-        totalPool = poolA + poolB + totalPool; // include funding + bets
+        totalPool = poolA + poolB + totalPool; // include bets + funding
 
         isResolved = true;
         winningOutcome = _winningOutcome;
@@ -107,7 +105,7 @@ contract PredictionVault {
         uint payout = (userStake * totalPool) / winningPool;
         hasClaimed[msg.sender] = true;
         
-        (bool success,) = msg.sender.call{value: payout}("");
+        (bool success,) = payable(msg.sender).call{value: payout}("");
         require(success, "Payout failed.");
 
         emit Payout(msg.sender, payout);

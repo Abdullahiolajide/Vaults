@@ -1,3 +1,4 @@
+export const FACTORY_ADDRESS = "0xe2F58111079fc460b73A8913416135BC715ec812";
 export const predictionVaultAbi = [
     {
       "inputs": [
@@ -20,6 +21,11 @@ export const predictionVaultAbi = [
           "internalType": "string",
           "name": "_category",
           "type": "string"
+        },
+        {
+          "internalType": "address",
+          "name": "_creator",
+          "type": "address"
         }
       ],
       "stateMutability": "nonpayable",

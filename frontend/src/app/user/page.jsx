@@ -313,7 +313,7 @@
 // import { predictionVaultAbi } from "@/abi/abi"; // Vault ABI
 // import { predictionVaultsFactoryAbi } from "@/abi/abi"; // Factory ABI
 
-// const VAULT_FACTORY_ADDRESS =
+// const FACTORY_ADDRESS =
 //   "0x199A7c6e6Fb176F2921cFfeE73eFA6Ec53185402"; // replace with deployed factory
 
 // async function getProvider() {
@@ -330,7 +330,7 @@
 // async function getVaultFactory() {
 //   const signer = await getSigner();
 //   return new ethers.Contract(
-//     VAULT_FACTORY_ADDRESS,
+//     FACTORY_ADDRESS,
 //     predictionVaultsFactoryAbi,
 //     signer
 //   );
@@ -566,9 +566,7 @@ import {
 } from "@/components/ui/drawer";
 
 // ----------------- CONTRACT CONFIG -----------------
-import { predictionVaultAbi, predictionVaultsFactoryAbi } from "@/abi/abi";
-
-const VAULT_FACTORY_ADDRESS = "0x199A7c6e6Fb176F2921cFfeE73eFA6Ec53185402";
+import { predictionVaultAbi, predictionVaultsFactoryAbi, FACTORY_ADDRESS } from "@/abi/abi";
 
 async function getProvider() {
   if (!window.ethereum) throw new Error("No wallet found");
@@ -583,7 +581,7 @@ async function getSigner() {
 
 async function getVaultFactory() {
   const signer = await getSigner();
-  return new ethers.Contract(VAULT_FACTORY_ADDRESS, predictionVaultsFactoryAbi, signer);
+  return new ethers.Contract(FACTORY_ADDRESS, predictionVaultsFactoryAbi, signer);
 }
 
 async function getVault(address) {
