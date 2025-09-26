@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { IconCirclePlusFilled, IconMail } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
@@ -13,10 +13,6 @@ import { DashboardContext } from "@/app/dashboard/page";
 import { useContext, useState } from "react";
 import { ethers } from "ethers";
 
-/**
- * Factory ABI (only the parts needed: VaultCreated event and createVault)
- * Kept inline so you don't need to import files — replace with your ABI import if you prefer.
- */
 const factoryAbi = [
     {
       "anonymous": false,
@@ -32,6 +28,18 @@ const factoryAbi = [
           "internalType": "address",
           "name": "creator",
           "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "category",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "initialLiquidity",
+          "type": "uint256"
         }
       ],
       "name": "VaultCreated",
@@ -72,11 +80,16 @@ const factoryAbi = [
           "internalType": "string",
           "name": "_teamB",
           "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_category",
+          "type": "string"
         }
       ],
       "name": "createVault",
       "outputs": [],
-      "stateMutability": "nonpayable",
+      "stateMutability": "payable",
       "type": "function"
     },
     {
@@ -87,6 +100,63 @@ const factoryAbi = [
           "internalType": "address[]",
           "name": "",
           "type": "address[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_vault",
+          "type": "address"
+        }
+      ],
+      "name": "getVaultCategory",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_creator",
+          "type": "address"
+        }
+      ],
+      "name": "getVaultsByCreator",
+      "outputs": [
+        {
+          "internalType": "address[]",
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "vaultCategory",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
         }
       ],
       "stateMutability": "view",
@@ -118,77 +188,76 @@ const factoryAbi = [
     }
   ];
 
-const FACTORY_ADDRESS = "0x95e4d39253e9D3771f86873F9e439AcFc10fBbD8";
+const FACTORY_ADDRESS = "0x199A7c6e6Fb176F2921cFfeE73eFA6Ec53185402";
 
 export function NavMain({ items }) {
-  const { walletAddress } = useContext(DashboardContext);
+  const { setRefresh } = useContext(DashboardContext);
 
   // Modal & form state
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [question, setQuestion] = useState("");
   const [teamA, setTeamA] = useState("");
   const [teamB, setTeamB] = useState("");
+  const [category, setCategory] = useState(""); // NEW
+  const [liquidity, setLiquidity] = useState(""); // NEW (in ETH/BDAG)
   const [loading, setLoading] = useState(false);
-  const { setRefresh } = useContext(DashboardContext)
 
-  // Create vault handler (calls factory.createVault)
+  // Create vault handler
   async function handleCreateVault(e) {
     e.preventDefault();
     try {
       setLoading(true);
 
       if (!window.ethereum) {
-        throw new Error("No wallet/provider found. Please install MetaMask or another wallet.");
+        throw new Error("No wallet/provider found.");
       }
 
-      // Request accounts & get signer
       const provider = new ethers.BrowserProvider(window.ethereum);
-      await provider.send("eth_requestAccounts", []); // ask user to connect if needed
+      await provider.send("eth_requestAccounts", []);
       const signer = await provider.getSigner();
 
       const factory = new ethers.Contract(FACTORY_ADDRESS, factoryAbi, signer);
 
-      // Call the factory to create a vault
-      const tx = await factory.createVault(question, teamA, teamB);
+      // Convert liquidity to wei
+      const value = liquidity ? ethers.parseEther(liquidity.toString()) : 0n;
+
+      const tx = await factory.createVault(question, teamA, teamB, category, {
+        value,
+      });
+
       const receipt = await tx.wait();
 
-      // Try to parse the VaultCreated event from the receipt's logs
+      // Try to parse VaultCreated event
       let newVaultAddress = null;
       for (const log of receipt.logs) {
         try {
           const parsed = factory.interface.parseLog(log);
           if (parsed && parsed.name === "VaultCreated") {
-            // event signature: (address newVaultAddress, address creator)
             newVaultAddress = parsed.args.newVaultAddress;
             break;
           }
-        } catch (err) {
-          // parseLog will throw for logs not from this interface - ignore
-        }finally{
-          setRefresh(prev=> !prev)
+        } catch {
+          // ignore unrelated logs
         }
       }
 
       if (newVaultAddress) {
-        // success feedback — keep UI unchanged otherwise
-        // you can replace the alert with your app toast later
         alert(`Vault created: ${newVaultAddress}`);
-        console.log("VaultCreated event address:", newVaultAddress);
+        console.log("VaultCreated event:", newVaultAddress);
       } else {
-        // fallback: inform user creation likely succeeded but event wasn't parsed
-        alert("Vault created (transaction confirmed). Could not read VaultCreated event from logs.");
-        console.log("Receipt logs:", receipt.logs);
+        alert("Vault created (confirmed), but no VaultCreated event found.");
       }
 
-      // reset + close modal
+      setRefresh((prev) => !prev);
       setQuestion("");
       setTeamA("");
       setTeamB("");
+      setCategory("");
+      setLiquidity("");
       setIsModalOpen(false);
     } catch (err) {
       console.error("Create vault error:", err);
-      // show friendly message
-      const message = err?.reason || err?.message || "Transaction failed or was rejected.";
+      const message = err?.reason || err?.message || "Transaction failed.";
       alert("Error creating vault: " + message);
     } finally {
       setLoading(false);
@@ -199,31 +268,24 @@ export function NavMain({ items }) {
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
         <SidebarMenu>
-          <SidebarMenuItem className="flex items-center gap-2">
-            {/* KEEP THE SAME UI: only added onClick to open modal */}
+          <SidebarMenuItem>
             <SidebarMenuButton
               tooltip="Create"
-              onClick={(e) => {
-                e.preventDefault();
-                setIsModalOpen(true);
-              }}
-              className="bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear"
+              onClick={() => setIsModalOpen(true)}
+              className="bg-primary text-primary-foreground hover:bg-primary/90 active:bg-primary/90 min-w-8 duration-200 ease-linear"
             >
               <IconCirclePlusFilled />
               <span>Create Vault</span>
             </SidebarMenuButton>
 
-            <Button
-              size="icon"
-              className="size-8 group-data-[collapsible=icon]:opacity-0"
-              variant="outline"
-            >
+            <Button size="icon" variant="outline" className="size-8">
               <IconMail />
               <span className="sr-only">Inbox</span>
             </Button>
           </SidebarMenuItem>
         </SidebarMenu>
 
+        {/* Render vault menu items */}
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
@@ -235,22 +297,13 @@ export function NavMain({ items }) {
           ))}
         </SidebarMenu>
 
-        {/* --- Modal (added, does not replace or remove any existing UI components) --- */}
+        {/* Modal */}
         {isModalOpen && (
-          <div
-            className="fixed inset-0 z-50 flex items-center justify-center"
-            role="dialog"
-            aria-modal="true"
-          >
-            {/* overlay */}
+          <div className="fixed inset-0 z-50 flex items-center justify-center">
             <div
               className="absolute inset-0 bg-black/50"
-              onClick={() => {
-                if (!loading) setIsModalOpen(false);
-              }}
+              onClick={() => !loading && setIsModalOpen(false)}
             />
-
-            {/* modal panel */}
             <div className="relative bg-black rounded-md shadow-lg w-[min(92%,560px)] p-6">
               <h3 className="text-lg font-semibold mb-4">Create New Vault</h3>
 
@@ -285,7 +338,36 @@ export function NavMain({ items }) {
                   disabled={loading}
                 />
 
-                <div className="flex items-center justify-end gap-3 mt-3">
+                {/* <input
+                  type="text"
+                  placeholder="Category (Sports, Celebrities, etc.)"
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  className="w-full border px-3 py-2 rounded"
+                  required
+                  disabled={loading}
+                /> */}
+                <select required disabled={loading} onChange={(e) => setCategory(e.target.value)}
+                 id="type" name="type" className="w-full border px-3 py-2 rounded">
+                  <option value="sports" className="text-black">Sports</option>
+                  <option value="celebrities" className="text-black">Celebrities</option>
+                  <option value="weather" className="text-black">Weather</option>
+                  <option value="crypto" className="text-black">Crypto</option>
+                  <option value="dollars" className="text-black">Dollars</option>
+                </select>
+
+
+                <input
+                  type="number"
+                  step="0.01"
+                  placeholder="Initial Liquidity (BDAG)"
+                  value={liquidity}
+                  onChange={(e) => setLiquidity(e.target.value)}
+                  className="w-full border px-3 py-2 rounded"
+                  disabled={loading}
+                />
+
+                <div className="flex justify-end gap-3 mt-3">
                   <Button
                     variant="outline"
                     onClick={() => !loading && setIsModalOpen(false)}

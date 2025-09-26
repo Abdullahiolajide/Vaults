@@ -570,7 +570,7 @@ export function DataTable({
 }
 
 const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
+  { month: "January", desktop: 16, mobile: 80 },
   { month: "February", desktop: 305, mobile: 200 },
   { month: "March", desktop: 237, mobile: 120 },
   { month: "April", desktop: 73, mobile: 190 },
@@ -580,12 +580,12 @@ const chartData = [
 
 const chartConfig = {
   desktop: {
-    label: "Desktop",
+    label: "Predictions",
     color: "var(--primary)",
   },
 
   mobile: {
-    label: "Mobile",
+    label: "Total",
     color: "var(--primary)",
   }
 }

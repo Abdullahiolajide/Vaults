@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { ethers } from "ethers";
-import { getVaultContract, getFactoryContract } from "@/app/lib/contracts";
+// import { getVaultContract, getFactoryContract } from "@/app/lib/contracts";
 
 export default function PredictionApp() {
   const [loading, setLoading] = useState(false);
