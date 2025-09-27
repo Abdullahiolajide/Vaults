@@ -539,11 +539,11 @@ export function SectionCards() {
         <Card className='@container/card h-60 w-70'></Card>
 
       </div>}
-      {vaults.map((vault, i) => (
+      {!loading && vaults.map((vault, i) => (
         <Card key={i} className="@container/card">
           <CardHeader>
-            <CardDescription>{vault.question}</CardDescription>
-            <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
+            <CardDescription className={'truncate h-5 text'}>{vault.question}</CardDescription>
+            <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl whitespace-nowrap">
               {vault.total} BDAG
             </CardTitle>
             <CardAction>

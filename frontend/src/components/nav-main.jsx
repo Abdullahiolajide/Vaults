@@ -181,7 +181,8 @@ export function NavMain({ items }) {
                 <select required disabled={loading} onChange={(e) => setCategory(e.target.value)}
                  id="type" name="type" className="w-full border px-3 py-2 rounded">
                   <option value="sports" className="text-black">Sports</option>
-                  <option value="celebrities" className="text-black">Celebrities</option>
+                  <option value="entertailment" className="text-black">Entertainment</option>
+                  <option value="politics" className="text-black">Politics</option>
                   <option value="weather" className="text-black">Weather</option>
                   <option value="crypto" className="text-black">Crypto</option>
                   <option value="dollars" className="text-black">Dollars</option>

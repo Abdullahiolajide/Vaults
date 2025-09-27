@@ -548,7 +548,7 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { ethers } from "ethers";
 
 import { Button } from "@/components/ui/button";
@@ -567,6 +567,9 @@ import {
 
 // ----------------- CONTRACT CONFIG -----------------
 import { predictionVaultAbi, predictionVaultsFactoryAbi, FACTORY_ADDRESS } from "@/abi/abi";
+import { set } from "zod";
+import { UserContext, useUser } from "./Provider";
+
 
 async function getProvider() {
   if (!window.ethereum) throw new Error("No wallet found");
@@ -590,11 +593,17 @@ async function getVault(address) {
 }
 
 // ----------------- COMPONENTS -----------------
-function QuestCard({ quest, wallet }) {
+
+export function QuestCard({ quest, wallet }) {
   const [open, setOpen] = useState(false);
   const [betAmount, setBetAmount] = useState("0.01");
+  const [loading, setLoading] = useState(false)
+  const [lText, setLText] = useState('')
+  const { setRefresh } = useUser();
   
   async function placeBet(outcome) {
+    setLoading(true)
+    setLText('Staking...')
     
     try {
       const vault = await getVault(quest.address);
@@ -606,10 +615,17 @@ function QuestCard({ quest, wallet }) {
     } catch (err) {
       console.error(err);
       alert("Error placing bet");
+    }finally{
+      setLoading(false)
+      setRefresh(prev=> !prev)
+      
     }
   }
   
   async function claimReward() {
+    setLoading(true)
+    setLText('Claiming...')
+
     try {
       const vault = await getVault(quest.address);
       const tx = await vault.claim();
@@ -618,6 +634,10 @@ function QuestCard({ quest, wallet }) {
     } catch (err) {
       console.error(err);
       alert("Error claiming reward");
+    }
+    finally{
+      setLoading(false)
+      setRefresh(prev=> !prev)
     }
   }
   
@@ -635,6 +655,7 @@ function QuestCard({ quest, wallet }) {
 
   return (
     <Card className="group relative overflow-hidden border-white/10 hover:border-white/20 transition-all hover:shadow-lg hover:-translate-y-0.5 animate-in fade-in-0 zoom-in-95 h-full flex flex-col">
+      
       <CardHeader className="flex-1">
         <div className="flex items-center gap-2 mb-1">
           <Badge variant="secondary" className="bg-yellow-500/20 text-yellow-300 capitalize">
@@ -661,16 +682,31 @@ function QuestCard({ quest, wallet }) {
       </CardHeader>
       <CardFooter className="pt-0 mt-auto">
         <Drawer open={open} onOpenChange={setOpen}>
+        
           <DrawerTrigger asChild>
-            <Button className="w-full text-white cursor-pointer">Join / Claim</Button>
+            <Button className="w-full text-white cursor-pointer">{quest.isResolved ? "Claim" : "Join"}</Button>
           </DrawerTrigger>
           <DrawerContent className="max-w-2xl mx-auto rounded-t-2xl border border-gray-700">
+         
             <DrawerHeader>
               <DrawerTitle>{quest.question}</DrawerTitle>
               <DrawerDescription>
                 {quest.teamA} vs {quest.teamB}
               </DrawerDescription>
             </DrawerHeader>
+                 {loading && 
+        <div className="top-0 left-0 w-full z-100 bg-gray-900/50 fixed h-full w-full z-100 flex items-center justify-center flex flex-col space-y-4">
+          <div className="w-fit flex flex-col items-center rotate z-100">
+            <div className="flex space-x-1">
+              <div className="h-5 w-5 bg-blue-800 rounded-4xl"></div>
+              <div className="h-5 w-5 bg-blue-800 rounded-4xl"></div>
+            </div>
+            <div className="h-5 w-5 bg-blue-800 rounded-4xl"></div>
+          </div>
+          <div className="z-100">{lText}</div>
+
+        </div>
+          }
 
             <div className="px-4 pb-2 space-y-4">
               <input
@@ -714,12 +750,14 @@ function QuestCard({ quest, wallet }) {
   );
 }
 
-export default function Page() {
+
+export default function Pagee() {
   const [wallet, setWallet] = useState("");
   const [balance, setBalance] = useState("0");
   const [quests, setQuests] = useState([]);
   const [loading, setLoading] = useState(false)
   const [lText, setLText] = useState('')
+  const {refresh} = useUser()
   
   useEffect(() => {
     async function load() {
@@ -771,7 +809,7 @@ export default function Page() {
       }
     }
     load();
-  }, []);
+  }, [refresh]);
 
   return (
     <main className="relative min-h-screen text-white p-6 sm:p-10 overflow-hidden">
@@ -804,14 +842,23 @@ export default function Page() {
           <div className="text-right text-sm">
             <div className="opacity-70">Wallet Balance</div>
             <div className="font-semibold neon-text">
-              {parseFloat(balance).toFixed(3)} ETH
+              {parseFloat(balance).toFixed(3)} BDAG
             </div>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
           {quests.map((q) => (
-            <div key={q.address} className="tilt">
+            <div key={q.address} className={`tilt ${q.isResolved && 'hidden'}`}>
+              <QuestCard quest={q} wallet={wallet} />
+            </div>
+          ))}
+        </div>
+        <h1 className="font-medium">Resolved Predictions</h1>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
+          {quests.map((q) => (
+            <div key={q.address} className={`tilt ${!q.isResolved && 'hidden'}`}>
               <QuestCard quest={q} wallet={wallet} />
             </div>
           ))}

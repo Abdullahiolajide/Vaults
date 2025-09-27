@@ -1,4 +1,4 @@
-export const FACTORY_ADDRESS = "0xe2F58111079fc460b73A8913416135BC715ec812";
+export const FACTORY_ADDRESS = "0xca9c7C06dCb426f37Ab01Ce8Ba3C83fbB01d32Da";
 export const predictionVaultAbi = [
     {
       "inputs": [
@@ -332,7 +332,6 @@ export const predictionVaultAbi = [
       "type": "receive"
     }
   ]
-
   export const predictionVaultsFactoryAbi = [
     {
       "anonymous": false,
