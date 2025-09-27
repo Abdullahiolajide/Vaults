@@ -76,6 +76,7 @@ export function QuestCard({ quest, wallet }) {
     }finally{
       setLoading(false)
       setRefresh(prev=> !prev)
+      setOpen(false)
       
     }
   }

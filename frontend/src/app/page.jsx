@@ -287,7 +287,7 @@ export default function Home() {
             </p>
 
             <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center' }}>
-              <CTAButton tone="pink" href="/connect">Create Quests</CTAButton>
+              <CTAButton tone="pink" href="/connect">Create Vaults</CTAButton>
               <CTAButton tone="cyan" href="/user">Participate</CTAButton>
             </div>
           </div>
