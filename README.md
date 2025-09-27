@@ -1,174 +1,135 @@
-Got it ✅ — here’s a **professional, hackathon-grade `README.md`** for your BlockDAG project. It’s structured to hit **all hackathon requirements**, showcase the **tech stack clearly**, and present your project as **polished, serious, and innovative**. I also included the **BlockDAG Hackathon Rules** section exactly as required.
+
+
+Prediction Vaults – A BlockDAG Hackathon Project
+Live Demo: [https://vaults-psi.vercel.app/](https://vaults-psi.vercel.app/)
 
 ---
 
-````markdown
-# 🔮 Prediction Vaults  
-_A BlockDAG Hackathon Project_
+Overview
+Prediction Vaults is a decentralized prediction platform built for the BlockDAG Hackathon.
 
-[Live Demo](https://vaults-psi.vercel.app/)  
-
----
-
-## 📌 Overview
-
-**Prediction Vaults** is a decentralized prediction platform designed and deployed for the **BlockDAG Hackathon**.  
-
-It allows anyone to create or join **on-chain prediction vaults** on real-world events and built-in games.  
-Participants stake tokens, make predictions, and winners claim rewards from the vault pools — all powered by **BlockDAG’s scalable testnet infrastructure**.  
-
-This project is built to highlight how **BlockDAG’s high-throughput, EVM-compatible chain** can power **real-time dApps** with fairness, security, and fun.  
+It enables admins to create on-chain prediction vaults while users participate by making predictions and competing for rewards. The project demonstrates how BlockDAG’s high-throughput, EVM-compatible blockchain can power transparent, real-time dApps.
 
 ---
 
-## ✨ Key Features
+Features
 
-- 🏦 **Vault Factory** — deploy new vaults dynamically on BlockDAG.  
-- 🎮 **Mini-games integration** — included prediction-based games to test the mechanics.  
-- 🔐 **On-chain transparency** — all vault logic and results stored on BlockDAG.  
-- 💸 **Reward mechanism** — winners claim directly from the vault contract.  
-- ⚡ **Fast & scalable** — leveraging BlockDAG’s DAG-based architecture.  
-- 🖥️ **Modern UI/UX** — minimal, responsive interface for smooth interaction.  
-
----
-
-## 🛠️ Tech Stack
-
-- **Frontend / Backend**: [Next.js](https://nextjs.org/)  
-- **Blockchain Runtime**: [Hardhat](https://hardhat.org/)  
-- **Smart Contract Interaction**: [ethers.js](https://docs.ethers.org/)  
-- **UI Libraries**: [shadcn/ui](https://ui.shadcn.com/), [Reactbits](https://reactbits.dev/), [TailwindCSS](https://tailwindcss.com/)  
-- **AI Support**: Google GenAI (for ideation/suggestions)  
-- **Deployment**: [Vercel](https://vercel.com/)  
+* Vault Factory – admins deploy new vaults directly on BlockDAG testnet.
+* Mini-games integration – built-in prediction games for demonstration.
+* On-chain transparency – vault states and outcomes stored immutably.
+* Reward pools – winners claim vault rewards automatically.
+* Fast & scalable – transactions confirmed quickly on BlockDAG.
+* Modern UI/UX – sleek, responsive interface built with Next.js + Tailwind.
 
 ---
 
-## ⚙️ Installation
+Tech Stack
+Frontend / Backend: Next.js
+Blockchain Runtime: Hardhat
+Smart Contract Interaction: ethers.js
+UI Libraries: shadcn/ui, Reactbits, TailwindCSS
+AI Assistance: Google GenAI (for ideation/suggestions)
+Deployment: Vercel
 
-Clone and set up locally:
+---
 
-```bash
-# Clone repository
+Installation
+Clone and run locally:
+
 git clone <your-repo-url>
 cd <your-repo-name>
-
-# Install dependencies
 npm install
-
-# Run locally
 npm run dev
-````
 
-The app runs on **[http://localhost:3000/](http://localhost:3000/)**.
-
----
-
-## 🚀 Deployment
-
-The project is deployed live here:
-👉 [https://vaults-psi.vercel.app/](https://vaults-psi.vercel.app/)
+Runs on [http://localhost:3000/](http://localhost:3000/)
 
 ---
 
-## 🔗 Smart Contracts
-
-* **Factory Vault Address**:
-  `0xca9c7C06dCb426f37Ab01Ce8Ba3C83fbB01d32Da`
-
-Contracts are deployed on **BlockDAG testnet**.
-Verified source code and interactions available through the BlockDAG explorer.
+Deployment
+The project is live here:
+[https://vaults-psi.vercel.app/](https://vaults-psi.vercel.app/)
 
 ---
 
-## 🧪 Development Workflow
+Smart Contracts
+Vault Factory Address:
+0xca9c7C06dCb426f37Ab01Ce8Ba3C83fbB01d32Da
 
-1. **Hardhat** used for contract compilation, testing, and deployment.
-2. **Next.js API routes** handle backend logic and contract calls.
-3. **Ethers.js** manages wallet connections and vault interactions.
-4. **Environment variables** stored in `.env` (never hardcoded).
-5. **Unit tests** ensure vault logic security and prevent exploit vectors.
+Contracts are deployed on BlockDAG testnet.
 
 ---
 
-## 🎥 Demo
+How to Use
 
-* **Live Application**: [vaults-psi.vercel.app](https://vaults-psi.vercel.app/)
-* **Screenshots & Video Demo**: Included in submission (2–5 minutes).
+Admin Flow
 
----
+* Connect your wallet.
+* Access the Admin Dashboard.
+* Create new prediction vaults, defining:
+  • Event or outcome to be predicted
+  • Initial balance (optional) – added to the total pool
+* Once the event concludes, the admin manually resolves the vault by selecting the correct outcome.
+* Rewards are distributed automatically to winning participants.
 
-## 📝 BlockDAG Hackathon Rules
+User Flow
 
-Welcome to the BlockDAG Hackathon, hosted on [HackerEarth](https://www.hackerearth.com/)!
-This section outlines the official rules, requirements, and judging criteria.
+* Connect wallet and browse available vaults.
+* Select a vault and submit a prediction by staking tokens.
+* If the outcome matches the user’s prediction, rewards are automatically credited.
 
-### 🧾 General Rules
-
-* **Eligibility**: Open to individuals 18 years or older. Teams may consist of 1–5 participants.
-* **Original Work**: All projects must be started and completed during the official hackathon period. Pre-existing code must be declared.
-* **Code of Conduct**: All participants must adhere to the [HackerEarth Code of Conduct](https://www.hackerearth.com/code-of-conduct/).
-
-### 🧠 Submission Requirements
-
-1. **GitHub Repository** — must include a public repo with README, install steps, usage, license.
-2. **Working Demo** — live or recorded video (2–5 minutes).
-3. **Pitch Deck** (optional but recommended).
-4. **Deployed Smart Contracts** — deployed to BlockDAG testnet, with addresses shared.
-
-### 🔐 Smart Contract Best Practices
-
-* Use Solidity `^0.8.0` or higher.
-* Include test suite (Hardhat, Foundry, or Truffle).
-* Avoid hardcoding secrets; use `.env`.
-* Cover all state-changing functions with tests.
-
-### 📊 Judging Criteria
-
-| Criterion            | Description                                                                 |
-| -------------------- | --------------------------------------------------------------------------- |
-| Technical Excellence | Code quality, smart contract design, and infrastructure decisions           |
-| Use of BlockDAG Tech | How well the project integrates BlockDAG’s tools, APIs, or ecosystem assets |
-| Innovation           | Creativity and originality of the idea                                      |
-| Utility              | Real-world applicability and potential impact                               |
-| UX/UI                | Interface design, usability, and overall polish                             |
-| Completeness         | How well the final product is delivered, tested, and documented             |
-
-### 🚫 Disqualifications
-
-* Plagiarism or reuse of another team’s code.
-* Submissions after the deadline.
-* Missing required deliverables.
-
-### 📞 Support
-
-Join the official Discord for support: [Discord Invite](https://discord.gg/ZuaG5vanFd)
+This creates a fair, transparent, on-chain reward system for both admins and users.
 
 ---
 
-## 📄 License
+Development Workflow
 
-This project is licensed under the **MIT License**.
-
----
-
-## 🙌 Acknowledgements
-
-* **BlockDAG** for providing the testnet and infrastructure.
-* **Hackathon Organizers (HackerEarth)** for the platform.
-* Open-source libraries and frameworks that powered this project.
+1. Smart contracts written, tested, and deployed with Hardhat.
+2. Next.js API routes handle contract calls and interactions.
+3. ethers.js manages wallet connections and transactions.
+4. Unit tests cover key vault mechanics.
+5. .env used for sensitive keys; nothing hardcoded.
 
 ---
 
-## 🌟 Closing Note
+Judging Alignment (BlockDAG Hackathon)
 
-Prediction Vaults demonstrates how **decentralized predictions and games** can be built seamlessly on BlockDAG.
-By combining **speed, scalability, and transparency**, it showcases the potential of BlockDAG to support **next-generation dApps** in entertainment, finance, and beyond.
+* Technical Excellence – contracts and dApp built with Hardhat + Next.js, fully deployed on BlockDAG testnet.
+* Use of BlockDAG Tech – direct deployment on BlockDAG, leveraging its scalability and DAG-based architecture.
+* Innovation – a hybrid model of predictions, games, and staking pools.
+* Utility – adaptable for sports, finance, markets, and entertainment.
+* UI/UX – simple, fast, and responsive dashboard for both admins and users.
+* Completeness – end-to-end: contract, frontend, backend, and live deployment delivered.
 
 ---
 
-```
+Future Roadmap
+
+* Oracle Integration – replace manual resolution by admin with secure oracle feeds for tamper-proof outcomes.
+* DAO Governance – community-driven vault resolution via voting.
+* Tokenized Rewards – dedicated reward token for staking, governance, and utility inside the platform.
+* Multi-Category Predictions – expand beyond games to sports, markets, and real-world events.
+* Cross-Chain Deployment – allow vaults to exist on multiple EVM-compatible networks, with BlockDAG as the settlement layer.
+* Enhanced Security – formal verification of contracts and bug bounty programs.
 
 ---
 
-Do you want me to also **add a “Future Roadmap” section** (e.g., multi-vault governance, cross-chain integration, marketplace for predictions), so it looks even more forward-thinking to the judges?
-```
+License
+MIT License
+
+---
+
+Acknowledgements
+
+* BlockDAG for providing the testnet and infrastructure
+* Hackathon organizers for the opportunity
+* Open-source frameworks and tools that made this project possible
+
+---
+
+Closing Note
+Prediction Vaults showcases how prediction markets and reward systems can run seamlessly on BlockDAG.
+It highlights the chain’s strengths – speed, scalability, and transparency – while opening the door to new dApps in entertainment, finance, and beyond.
+
+---
+
+Do you want me to also write a **super short version** (like a 1-page README) that’s compact for GitHub judges who just skim, alongside this detailed one?
