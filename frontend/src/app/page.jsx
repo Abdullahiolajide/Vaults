@@ -269,9 +269,10 @@ export default function Home() {
               '0 0 18px rgba(59,130,246,0.35), 0 0 28px rgba(0,0,0,0.25)',
           }}
         >
-              The Future of Decentralized Rewards.
+              
+              The Future of Decentralized Prediction and Rewards
               <br />
-              On‑Chain. Seamlessly.
+              Seamless. On-Chain.
             </h1>
 
             <p className="fade-up"
