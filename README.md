@@ -15,9 +15,9 @@ It enables admins to create on-chain prediction vaults while users participate b
 Features
 
 * Vault Factory – admins deploy new vaults directly on BlockDAG testnet.
-* Mini-games integration – built-in prediction games for demonstration.
+* Mini-games integration – built-in prediction games for random predictions.
 * On-chain transparency – vault states and outcomes stored immutably.
-* Reward pools – winners claim vault rewards automatically.
+* Reward pools – winners claim vault rewards after they are resolved.
 * Fast & scalable – transactions confirmed quickly on BlockDAG.
 * Modern UI/UX – sleek, responsive interface built with Next.js + Tailwind.
 
@@ -67,15 +67,15 @@ Admin Flow
 * Access the Admin Dashboard.
 * Create new prediction vaults, defining:
   • Event or outcome to be predicted
-  • Initial balance (optional) – added to the total pool
+  • Initial balance  – added to the total pool
 * Once the event concludes, the admin manually resolves the vault by selecting the correct outcome.
-* Rewards are distributed automatically to winning participants.
+* Rewards can be claimed by participants after the vaults are resolved.
 
 User Flow
 
 * Connect wallet and browse available vaults.
 * Select a vault and submit a prediction by staking tokens.
-* If the outcome matches the user’s prediction, rewards are automatically credited.
+* If the outcome matches the user’s prediction, rewards are credited.
 
 This creates a fair, transparent, on-chain reward system for both admins and users.
 
@@ -84,7 +84,7 @@ This creates a fair, transparent, on-chain reward system for both admins and use
 Development Workflow
 
 1. Smart contracts written, tested, and deployed with Hardhat.
-2. Next.js API routes handle contract calls and interactions.
+2. Next.js API routes handle backend.
 3. ethers.js manages wallet connections and transactions.
 4. Unit tests cover key vault mechanics.
 5. .env used for sensitive keys; nothing hardcoded.
