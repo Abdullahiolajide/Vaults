@@ -763,7 +763,7 @@ export function QuestCard({ quest, wallet }) {
               Not sure what to stake on? <span className="text-blue-600 cursor-pointer hover:text-blue-800" onClick={()=> askAI(quest.question, quest.teamA, quest.teamB)}>Ask AI</span> 
             </div>
             <div className="text-sm px-4 mt-2 duration-300 text-yellow-600">
-              {isGen ? 'generating...' : `AI suggests: ${AIResponse}`}
+              {isGen ? 'generating...' : `${AIResponse}`}
             </div>
             <span className="text-xs text-gray-500 text-center">AI predictions are not 100% accurrate</span>
 
