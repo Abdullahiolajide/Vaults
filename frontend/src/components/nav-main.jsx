@@ -204,10 +204,11 @@ export function NavMain({ items }) {
                     variant="outline"
                     onClick={() => !loading && setIsModalOpen(false)}
                     disabled={loading}
+                    className={'cursor-pointer'}
                   >
                     Cancel
                   </Button>
-                  <Button type="submit" disabled={loading}>
+                  <Button type="submit" disabled={loading} className={'hover:bg-blue-800 text-white cursor-pointer'}>
                     {loading ? "Creating..." : "Create Vault"}
                   </Button>
                 </div>

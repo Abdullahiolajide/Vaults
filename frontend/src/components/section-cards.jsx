@@ -451,6 +451,8 @@ export function SectionCards() {
   const [vaults, setVaults] = useState([]);
   const [resolving, setResolving] = useState(null);
   const [loading, setLoading] = useState(false)
+  const [lText, setLText] = useState('')
+  const [rl, setRl] = useState(false)
 
 
 
@@ -511,6 +513,9 @@ export function SectionCards() {
   }
 
   async function resolveVault(address, outcome) {
+    setLoading(true);
+    setRl(true)
+    setLText('Resolving...')
     try {
       if (!window.ethereum) return alert("No wallet found");
       setResolving(address);
@@ -528,7 +533,9 @@ export function SectionCards() {
       console.error("Resolve error:", err);
       alert("Failed to resolve vault");
     } finally {
+      setLoading(false)
       setResolving(null);
+      setRl(false)
     }
   }
 
@@ -539,6 +546,19 @@ export function SectionCards() {
         <Card className='@container/card h-60 w-70'></Card>
 
       </div>}
+      {rl && 
+        <div className="top-0 left-0 w-full z-100 bg-gray-900/50 fixed min-h-screen flex items-center justify-center flex flex-col space-y-4">
+          <div className="w-fit flex flex-col items-center rotate">
+            <div className="flex space-x-1">
+              <div className="h-5 w-5 bg-blue-800 rounded-4xl"></div>
+              <div className="h-5 w-5 bg-blue-800 rounded-4xl"></div>
+            </div>
+            <div className="h-5 w-5 bg-blue-800 rounded-4xl"></div>
+          </div>
+          <div>{lText}</div>
+
+        </div>
+         }
       {!loading && vaults.map((vault, i) => (
         <Card key={i} className="@container/card">
           <CardHeader>

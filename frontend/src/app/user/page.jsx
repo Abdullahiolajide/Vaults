@@ -567,8 +567,11 @@ import {
 
 // ----------------- CONTRACT CONFIG -----------------
 import { predictionVaultAbi, predictionVaultsFactoryAbi, FACTORY_ADDRESS } from "@/abi/abi";
-import { set } from "zod";
+
 import { UserContext, useUser } from "./Provider";
+import { GoogleGenAI } from "@google/genai";
+// import { GoogleGenerativeAI } from "@google/generative-ai";
+
 
 
 async function getProvider() {
@@ -600,6 +603,8 @@ export function QuestCard({ quest, wallet }) {
   const [loading, setLoading] = useState(false)
   const [lText, setLText] = useState('')
   const { setRefresh } = useUser();
+  const [AIResponse, setAIResponse] = useState('')
+  const [isGen, setIsGen] = useState(false)
   
   async function placeBet(outcome) {
     setLoading(true)
@@ -652,6 +657,23 @@ export function QuestCard({ quest, wallet }) {
       alert("Error resolving vault");
     }
   }
+  
+  // const ai = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+   
+      async function askAI(question, first, second) {
+        setIsGen(true)
+        const resp = await fetch("/api/genai", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt: `Question: ${question}, which is the likely outcome - ${first} or ${second} just a short sentence, dont be certain about your advise, just an hint, saying wheather it is likely to happen or not` }),
+        });
+        const data = await resp.json();
+        setAIResponse(data.text)
+        setIsGen(false)
+      // return data.text;
+    }
+
 
   return (
     <Card className="group relative overflow-hidden border-white/10 hover:border-white/20 transition-all hover:shadow-lg hover:-translate-y-0.5 animate-in fade-in-0 zoom-in-95 h-full flex flex-col">
@@ -695,18 +717,18 @@ export function QuestCard({ quest, wallet }) {
               </DrawerDescription>
             </DrawerHeader>
                  {loading && 
-        <div className="top-0 left-0 w-full z-100 bg-gray-900/50 fixed h-full w-full z-100 flex items-center justify-center flex flex-col space-y-4">
-          <div className="w-fit flex flex-col items-center rotate z-100">
-            <div className="flex space-x-1">
-              <div className="h-5 w-5 bg-blue-800 rounded-4xl"></div>
-              <div className="h-5 w-5 bg-blue-800 rounded-4xl"></div>
-            </div>
-            <div className="h-5 w-5 bg-blue-800 rounded-4xl"></div>
-          </div>
-          <div className="z-100">{lText}</div>
+                  <div className="top-0 left-0 w-full z-100 bg-gray-900/50 fixed h-full w-full z-100 flex items-center justify-center flex flex-col space-y-4">
+                    <div className="w-fit flex flex-col items-center rotate z-100">
+                      <div className="flex space-x-1">
+                        <div className="h-5 w-5 bg-blue-800 rounded-4xl"></div>
+                        <div className="h-5 w-5 bg-blue-800 rounded-4xl"></div>
+                      </div>
+                      <div className="h-5 w-5 bg-blue-800 rounded-4xl"></div>
+                    </div>
+                    <div className="z-100">{lText}</div>
 
-        </div>
-          }
+                  </div>
+                }
 
             <div className="px-4 pb-2 space-y-4">
               <input
@@ -737,6 +759,13 @@ export function QuestCard({ quest, wallet }) {
                   </div>
                   )} */}
             </div>
+            <div className="px-4 text-sm">
+              Not sure what to stake on? <span className="text-blue-600 cursor-pointer hover:text-blue-800" onClick={()=> askAI(quest.question, quest.teamA, quest.teamB)}>Ask AI</span> 
+            </div>
+            <div className="text-sm px-4 mt-2 duration-300 text-yellow-600">
+              {isGen ? 'generating...' : `AI suggests: ${AIResponse}`}
+            </div>
+            <span className="text-xs text-gray-500 text-center">AI predictions are not 100% accurrate</span>
 
             <DrawerFooter>
               <DrawerClose asChild>
